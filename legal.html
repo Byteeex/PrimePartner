@@ -29,8 +29,12 @@
           <img class="brand-mark" src="assets/primepartnerLogo.png" alt="PrimePartner logo" />
           <span>PrimePartner</span>
         </a>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">
+          <span class="nav-toggle-label">Menu</span>
+          <span class="nav-toggle-icon" aria-hidden="true"></span>
+        </button>
         <nav class="site-nav" aria-label="Primary">
-          <ul class="nav-list">
+          <ul class="nav-list" id="primary-nav" data-nav>
             <li><a href="index.html">Home</a></li>
             <li><a href="how-it-works.html">How It Works</a></li>
             <li><a href="services.html">For SDVOSBs</a></li>
@@ -140,3 +144,4 @@
     <script src="js/main.js" defer></script>
   </body>
 </html>
+

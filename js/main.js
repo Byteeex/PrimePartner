@@ -4,8 +4,29 @@
   root.classList.add('js');
 
   const header = document.querySelector('[data-header]') || document.querySelector('.site-header');
+  const navToggle = document.querySelector('[data-nav-toggle]');
+  const navList = document.querySelector('[data-nav]');
   const prefersReducedMotion =
     window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (navToggle && navList) {
+    navToggle.addEventListener('click', () => {
+      const isOpen = navList.classList.toggle('is-open');
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    navList.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) {
+        return;
+      }
+      const link = target.closest('a');
+      if (link) {
+        navList.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
 
   const handleScroll = () => {
     if (!header) {

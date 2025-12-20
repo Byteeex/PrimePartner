@@ -297,6 +297,71 @@ select {
   opacity: 0.95;
 }
 
+.nav-toggle {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(23, 63, 115, 0.2);
+  background: #ffffff;
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.nav-toggle:hover,
+.nav-toggle:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-tight);
+}
+
+.nav-toggle-label {
+  font-size: 0.9rem;
+}
+
+.nav-toggle-icon {
+  position: relative;
+  width: 20px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.nav-toggle-icon::before,
+.nav-toggle-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 20px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+.nav-toggle-icon::before {
+  top: -6px;
+}
+
+.nav-toggle-icon::after {
+  top: 6px;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-icon {
+  background: transparent;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-icon::before {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-icon::after {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
 .hero {
   padding: clamp(4rem, 9vw, 7rem) 0;
   position: relative;
@@ -860,27 +925,103 @@ select:focus {
 
 @media (max-width: 900px) {
   .nav-wrap {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    margin-left: auto;
+    height: 40px;
+    padding: 0 1rem;
+    background: var(--accent-soft);
+    border-color: rgba(23, 63, 115, 0.2);
+  }
+
+  .site-nav {
+    width: 100%;
   }
 
   .nav-list {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     width: 100%;
-    gap: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--border);
+    gap: 0.65rem;
+    padding: 0;
+    border: none;
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transform: translateY(-6px);
+    transition: max-height var(--transition), opacity var(--transition), transform var(--transition);
+  }
+
+  .nav-list li {
+    width: 100%;
+  }
+
+  .nav-list.is-open {
+    max-height: 520px;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    margin-top: 0.75rem;
+    padding: 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: var(--shadow-tight);
+  }
+
+  .no-js .nav-toggle {
+    display: none;
+  }
+
+  .no-js .nav-list {
+    max-height: none;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    margin-top: 0.75rem;
+    padding: 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: var(--shadow-tight);
+  }
+
+  .nav-list a {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 0.55rem 0.75rem;
+    border-radius: 10px;
+  }
+
+  .nav-list a::after {
+    display: none;
+  }
+
+  .nav-list a:hover,
+  .nav-list a:focus-visible {
+    background: var(--accent-soft);
+  }
+
+  .nav-cta {
+    width: 100%;
+    justify-content: center;
+    padding: 0.55rem 1rem;
   }
 
   .brand {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
   }
 
   .brand-mark {
-    width: 32px;
-    height: 32px;
-    transform: translateY(4px) scale(1.6);
+    width: 60px;
+    height: 60px;
+    transform: translateY(2px) scale(1);
   }
 
   .hero-actions .btn {
@@ -888,13 +1029,87 @@ select:focus {
   }
 }
 
+@media (max-width: 760px) {
+  .grid-2,
+  .grid-3,
+  .kpi-grid,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-grid {
+    gap: 2rem;
+  }
+
+  .hero-panel,
+  .preview,
+  .card {
+    padding: 1.3rem;
+  }
+
+  .timeline {
+    padding-left: 1rem;
+  }
+
+  .timeline::before {
+    left: 3px;
+  }
+
+  .timeline-step {
+    padding-left: 1.2rem;
+  }
+}
+
 @media (max-width: 600px) {
+  :root {
+    --section-padding: clamp(2.5rem, 10vw, 4.25rem);
+  }
+
+  h1 {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 7vw, 2.1rem);
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+
   .hero {
-    padding: 3.5rem 0;
+    padding: 3.2rem 0;
+  }
+
+  .hero-photo {
+    padding: 0.6rem;
+  }
+
+  .hero-actions {
+    gap: 0.75rem;
   }
 
   .cta-band {
-    padding: 2rem 1.5rem;
+    padding: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-toggle-label {
+    display: none;
+  }
+
+  .nav-toggle {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .brand-mark {
+    width: 54px;
+    height: 54px;
+    transform: translateY(2px) scale(1);
   }
 }
 
